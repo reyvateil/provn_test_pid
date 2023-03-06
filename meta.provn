@@ -1,0 +1,21 @@
+document
+  default <github.com/reyvateil/provn_test_pid/blob/master/>
+  prefix ns <github.com/reyvateil/provn_test_pid/blob/master/>
+  prefix cpm <cpm_uri>
+  prefix dct <dct_uri>
+  prefix prov_1 <prov_uri>
+  
+  bundle ns:meta.provn
+    prefix ns <github.com/reyvateil/provn_test_pid/blob/master/>
+    
+    entity(ns:bundle_train, [prov:type="prov:bundle"])
+    entity(ns:bundle_train_gen, [prov:type="prov:bundle"])
+    specializationOf(ns:bundle_train, ns:bundle_train_gen)
+    entity(ns:bundle_eval, [prov:type="prov:bundle"])
+    entity(ns:bundle_eval_gen, [prov:type="prov:bundle"])
+    specializationOf(ns:bundle_eval, ns:bundle_eval_gen)
+    entity(ns:bundle_preprocess, [prov:type="prov:bundle"])
+    entity(ns:bundle_preprocess_gen, [prov:type="prov:bundle"])
+    specializationOf(ns:bundle_preprocess, ns:bundle_preprocess_gen)
+  endBundle
+endDocument

@@ -1,0 +1,47 @@
+document
+  default <github.com/reyvateil/provn_test_pid/blob/master/>
+  prefix ns <github.com/reyvateil/provn_test_pid/blob/master/>
+  prefix cpm <cpm_uri>
+  prefix dct <dct_uri>
+  prefix prov_1 <prov_uri>
+  
+  bundle ns:eval.provn
+    prefix ns <github.com/reyvateil/provn_test_pid/blob/master/>
+    
+    entity(ns:trainedModelConnector, [prov:type="cpm:receiverConnector", cpm:senderBundleId="ns:train.provn", cpm:senderServiceUri="#URI#"])
+    entity(ns:datasetEvalConnector, [prov:type="cpm:receiverConnector", cpm:senderBundleId="ns:preproc.provn", cpm:senderServiceUri="#URI#"])
+    agent(ns:senderAgent, [prov:type="cpm:senderAgent"])
+    agent(ns:senderAgent, [prov:type="cpm:senderAgent"])
+    entity(ns:trainedNet, [prov:type="cpm:externalInput"])
+    entity(ns:testDataset, [prov:type="cpm:externalInput"])
+    activity(ns:receipt1, -, -, [prov:type="cpm:receiptActivity"])
+    activity(ns:receipt2, -, -, [prov:type="cpm:receiptActivity"])
+    activity(ns:mainActivityEval, -, -, [prov:type="cpm:mainActivity", dct:hasPart="ns:test"])
+    wasDerivedFrom(ns:trainedNet, ns:trainedModelConnector, -, -, -)
+    wasInvalidatedBy(ns:trainedModelConnector, ns:receipt1, -)
+    wasGeneratedBy(ns:trainedNet, ns:receipt1, -)
+    used(ns:receipt1, ns:trainedModelConnector, -)
+    wasDerivedFrom(ns:testDataset, ns:datasetEvalConnector, -, -, -)
+    wasGeneratedBy(ns:testDataset, ns:receipt2, -)
+    used(ns:receipt2, ns:datasetEvalConnector, -)
+    wasInvalidatedBy(ns:datasetEvalConnector, ns:receipt2, -)
+    used(ns:mainActivityEval, ns:testDataset, -)
+    used(ns:mainActivityEval, ns:trainedNet, -)
+    wasAttributedTo(ns:trainedModelConnector, ns:senderAgent)
+    wasAttributedTo(ns:datasetEvalConnector, ns:senderAgent)
+    entity(ns:trainedNetFromCkpt, [checkpoint_file="/home/meta/matejg/Data/camelyon16/cam16_experiments/ROCRATE-ALL-3edf1adb7dbb9748d68ba6d2/best_loss.ckpt"])
+    entity(ns:cfgEval, [filepath="/home/meta/matejg/Data/camelyon16/cam16_experiments/ROCRATE-ALL-3edf1adb7dbb9748d68ba6d2/prov_new_eval.json", sha256="384b04f850ee6f9fe70c33fef63565b5ab2fa6c84b0d531f3ee912d7a1c0ba51"])
+    entity(ns:testHDF5Dataset, [table_0_sha256="c9015456f94b60a69b608715d80fdcea91d1e8f832742b5762bc11fe979c1d4b"])
+    entity(ns:evalHDF5Dataset, [filepath="/home/meta/matejg/Data/camelyon16/cam16_experiments/ROCRATE-ALL-3edf1adb7dbb9748d68ba6d2/predictions.h5", sha256="cf30a62be41cb3176c6defb2b6318bc61948356e3d8fccd930070dda2847bb3c"])
+    activity(ns:test, -, -, [experiment_ID="ROCRATE-ALL-3edf1adb7dbb9748d68ba6d2", git_commit_hash="b3ba668f061e69599c33eabf9ef63a6e372c9330"])
+    entity(ns:testPredictions, [table_0_sha256="ec8b4fb4f71033a8398c4b62f4f5329a9572da879be5bf6f2b1f00868717dcbc", ec8b4fb4f71033a8398c4b62f4f5329a9572da879be5bf6f2b1f00868717dcbc_Binary Accuracy="0.83105" %% xsd:float, ec8b4fb4f71033a8398c4b62f4f5329a9572da879be5bf6f2b1f00868717dcbc_Precision="0.0823529" %% xsd:float, ec8b4fb4f71033a8398c4b62f4f5329a9572da879be5bf6f2b1f00868717dcbc_Recall="0.037234" %% xsd:float, ec8b4fb4f71033a8398c4b62f4f5329a9572da879be5bf6f2b1f00868717dcbc_TP="7" %% xsd:float, ec8b4fb4f71033a8398c4b62f4f5329a9572da879be5bf6f2b1f00868717dcbc_TN="1267" %% xsd:float, ec8b4fb4f71033a8398c4b62f4f5329a9572da879be5bf6f2b1f00868717dcbc_FP="78" %% xsd:float, ec8b4fb4f71033a8398c4b62f4f5329a9572da879be5bf6f2b1f00868717dcbc_FN="181" %% xsd:float])
+    specializationOf(ns:trainedNetFromCkpt, ns:trainedNet)
+    specializationOf(ns:testHDF5Dataset, ns:testDataset)
+    wasDerivedFrom(ns:testPredictions, ns:testHDF5Dataset, -, -, -)
+    used(ns:test, ns:testHDF5Dataset, -)
+    used(ns:test, ns:cfgEval, -)
+    used(ns:test, ns:trainedNetFromCkpt, -)
+    wasGeneratedBy(ns:testPredictions, ns:test, -)
+    wasDerivedFrom(ns:evalHDF5Dataset, ns:testPredictions, -, -, -)
+  endBundle
+endDocument
